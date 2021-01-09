@@ -6,7 +6,13 @@ import { AgentStatus } from './agent.enum';
 
 @EntityRepository(AgentEntity)
 export class AgentRepository extends Repository<AgentEntity> {
-  async findAvailableAgentId(): Promise<string> {
+  async getAgentList(): Promise<Agent[]> {
+    const agentList = await this.find();
+
+    return plainToClass(Agent, agentList);
+  }
+
+  async getAvailableAgentId(): Promise<string> {
     const agent = await this.findOne({
       where: {
         status: AgentStatus.AVAILABLE,
@@ -15,12 +21,6 @@ export class AgentRepository extends Repository<AgentEntity> {
     if (!agent) return null;
 
     return agent.id;
-  }
-
-  async getAgentList(): Promise<Agent[]> {
-    const agentList = await this.find();
-
-    return plainToClass(Agent, agentList);
   }
 
   async upsertAgent(agentDto: UpdateAgentDto): Promise<void> {

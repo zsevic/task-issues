@@ -16,7 +16,7 @@ export class IssueService {
   @Transactional()
   async createIssue(issue: CreateIssueDto): Promise<void> {
     let issueStatus = IssueStatus.PENDING;
-    const availableAgentId = await this.agentRepository.findAvailableAgentId();
+    const availableAgentId = await this.agentRepository.getAvailableAgentId();
     if (availableAgentId) {
       issueStatus = IssueStatus.ASSIGNED;
       await this.agentRepository.upsertAgent({
