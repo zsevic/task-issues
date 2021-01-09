@@ -44,10 +44,12 @@ export class AgentService {
     });
 
     const agentStatus = await this.assignPendingIssueIfAny(agentId);
-    await this.agentRepository.upsertAgent({
-      id: agentId,
-      status: agentStatus,
-    });
+    if (agentStatus !== AgentStatus.ASSIGNED) {
+      await this.agentRepository.upsertAgent({
+        id: agentId,
+        status: agentStatus,
+      });
+    }
   }
 
   private async assignPendingIssueIfAny(agentId: string): Promise<string> {
