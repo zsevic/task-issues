@@ -6,11 +6,6 @@ import { AgentStatus } from './agent.enum';
 
 @EntityRepository(AgentEntity)
 export class AgentRepository extends Repository<AgentEntity> {
-  async createAgent(agentDto): Promise<Agent> {
-    const createdAgent = await this.save(agentDto);
-    return plainToClass(Agent, createdAgent);
-  }
-
   async findAvailableAgentId(): Promise<string> {
     const agent = await this.findOne({
       where: {
@@ -28,10 +23,11 @@ export class AgentRepository extends Repository<AgentEntity> {
     return plainToClass(Agent, agentList);
   }
 
-  async updateAgent(agentDto: UpdateAgentDto): Promise<void> {
+  async upsertAgent(agentDto: UpdateAgentDto): Promise<void> {
     const agent = await this.findOne(agentDto.id);
     if (!agent) {
-      throw new Error('Agent is not valid');
+      const createdAgent = await this.save(agentDto);
+      return Promise.resolve();
     }
 
     await this.save({
