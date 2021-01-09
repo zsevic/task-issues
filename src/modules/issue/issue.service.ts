@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { AgentStatus } from 'modules/agent/agent.enum';
 import { AgentRepository } from 'modules/agent/agent.repository';
-import { CreateIssueDto } from './create-issue.dto';
-import { Issue } from './issue.dto';
+import { CreateIssueDto, Issue } from './dto';
 import { IssueStatus } from './issue.enum';
 import { IssueRepository } from './issue.repository';
 

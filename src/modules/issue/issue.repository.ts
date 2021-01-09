@@ -1,6 +1,6 @@
 import { plainToClass } from 'class-transformer';
 import { EntityRepository, Repository } from 'typeorm';
-import { Issue } from './issue.dto';
+import { Issue } from './dto';
 import { IssueEntity } from './issue.entity';
 
 @EntityRepository(IssueEntity)
