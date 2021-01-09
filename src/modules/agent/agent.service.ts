@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
+import { Issue } from 'modules/issue/dto';
 import { IssueStatus } from 'modules/issue/issue.enum';
 import { IssueRepository } from 'modules/issue/issue.repository';
 import { Agent, CreateAgentDto } from './dto';
@@ -32,5 +33,9 @@ export class AgentService {
 
   async getAgentList(): Promise<Agent[]> {
     return this.agentRepository.getAgentList();
+  }
+
+  async getIssueList(agentId: string): Promise<Issue[]> {
+    return this.issueRepository.getIssueListByAgentId(agentId);
   }
 }
