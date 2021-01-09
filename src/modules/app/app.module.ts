@@ -14,6 +14,7 @@ import {
 } from 'typeorm-transactional-cls-hooked';
 import config from 'common/config';
 import databaseConfig from 'common/config/database';
+import { IssueModule } from 'modules/issue/issue.module';
 import { AppController } from './app.controller';
 
 const typeOrmConfig = {
@@ -37,6 +38,7 @@ const typeOrmConfig = {
       load: [config],
     }),
     TypeOrmModule.forRootAsync(typeOrmConfig),
+    IssueModule,
   ],
   controllers: [AppController],
   providers: [
