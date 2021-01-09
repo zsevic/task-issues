@@ -17,21 +17,12 @@ export class AgentService {
 
   @Transactional()
   async createAgent(agent: CreateAgentDto): Promise<void> {
-    const uuid = uuidv4();
+    const agentId = uuidv4();
 
-    let agentStatus = AgentStatus.AVAILABLE;
-    const pendingIssueId = await this.issueRepository.getPendingIssueId();
-    if (pendingIssueId) {
-      agentStatus = AgentStatus.WORKING;
-      await this.issueRepository.updateIssue({
-        id: pendingIssueId,
-        status: IssueStatus.ASSIGNED,
-        agent_id: uuid,
-      });
-    }
+    const agentStatus = await this.assignPendingIssueIfAny(agentId);
     await this.agentRepository.upsertAgent({
       ...agent,
-      id: uuid,
+      id: agentId,
       status: agentStatus,
     });
   }
@@ -52,6 +43,14 @@ export class AgentService {
       status: IssueStatus.RESOLVED,
     });
 
+    const agentStatus = await this.assignPendingIssueIfAny(agentId);
+    await this.agentRepository.upsertAgent({
+      id: agentId,
+      status: agentStatus,
+    });
+  }
+
+  private async assignPendingIssueIfAny(agentId: string): Promise<string> {
     let agentStatus = AgentStatus.AVAILABLE;
     const pendingIssueId = await this.issueRepository.getPendingIssueId();
     if (pendingIssueId) {
@@ -62,9 +61,7 @@ export class AgentService {
         agent_id: agentId,
       });
     }
-    await this.agentRepository.upsertAgent({
-      id: agentId,
-      status: agentStatus,
-    });
+
+    return agentStatus;
   }
 }
