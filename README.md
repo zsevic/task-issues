@@ -48,17 +48,9 @@ npm run migrate
 npm run migrate:down
 ```
 
-### Seeders
-
-```bash
-npm run seed:generate <SEEDER_NAME>
-npm run seed
-npm run seed:down
-```
-
 ### API documentation
 
-API documentation is generated at `/api-docs` endpoint
+Generated at `/api-docs` endpoint
 
 ### Technologies used
 
