@@ -26,7 +26,7 @@ export class AgentRepository extends Repository<AgentEntity> {
   async upsertAgent(agentDto: UpdateAgentDto): Promise<void> {
     const agent = await this.findOne(agentDto.id);
     if (!agent) {
-      const createdAgent = await this.save(agentDto);
+      await this.save(agentDto);
       return Promise.resolve();
     }
 
