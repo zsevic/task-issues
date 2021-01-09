@@ -21,7 +21,7 @@ export class IssueService {
       issueStatus = IssueStatus.ASSIGNED;
       await this.agentRepository.upsertAgent({
         id: availableAgentId,
-        status: AgentStatus.WORKING,
+        status: AgentStatus.ASSIGNED,
       });
     }
     await this.issueRepository.createIssue({

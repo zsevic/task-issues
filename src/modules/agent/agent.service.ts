@@ -54,7 +54,7 @@ export class AgentService {
     let agentStatus = AgentStatus.AVAILABLE;
     const pendingIssueId = await this.issueRepository.getPendingIssueId();
     if (pendingIssueId) {
-      agentStatus = AgentStatus.WORKING;
+      agentStatus = AgentStatus.ASSIGNED;
       await this.issueRepository.updateIssue({
         id: pendingIssueId,
         status: IssueStatus.ASSIGNED,
