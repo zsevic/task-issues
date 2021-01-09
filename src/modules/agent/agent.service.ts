@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
+import { v4 as uuidv4 } from 'uuid';
 import { Issue } from 'modules/issue/dto';
 import { IssueStatus } from 'modules/issue/issue.enum';
 import { IssueRepository } from 'modules/issue/issue.repository';
@@ -16,17 +17,21 @@ export class AgentService {
 
   @Transactional()
   async createAgent(agent: CreateAgentDto): Promise<void> {
-    const pendingIssueId = await this.issueRepository.getPendingIssueId();
+    const uuid = uuidv4();
     let agentStatus = AgentStatus.AVAILABLE;
+
+    const pendingIssueId = await this.issueRepository.getPendingIssueId();
     if (pendingIssueId) {
       agentStatus = AgentStatus.WORKING;
       await this.issueRepository.updateIssue({
         id: pendingIssueId,
         status: IssueStatus.ASSIGNED,
+        agent_id: uuid,
       });
     }
     await this.agentRepository.createAgent({
       ...agent,
+      id: uuid,
       status: agentStatus,
     });
   }
