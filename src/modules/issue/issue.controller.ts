@@ -8,7 +8,7 @@ export class IssueController {
   constructor(private readonly issueService: IssueService) {}
 
   @Post()
-  async createIssue(@Body() issue: CreateIssueDto): Promise<Issue> {
+  async createIssue(@Body() issue: CreateIssueDto): Promise<void> {
     return this.issueService.createIssue(issue);
   }
 

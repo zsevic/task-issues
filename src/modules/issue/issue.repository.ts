@@ -1,12 +1,11 @@
 import { plainToClass } from 'class-transformer';
 import { EntityRepository, Repository } from 'typeorm';
-import { CreateIssueDto } from './create-issue.dto';
 import { Issue } from './issue.dto';
 import { IssueEntity } from './issue.entity';
 
 @EntityRepository(IssueEntity)
 export class IssueRepository extends Repository<IssueEntity> {
-  async createIssue(issue: CreateIssueDto): Promise<Issue> {
+  async createIssue(issue: Issue): Promise<Issue> {
     const createdIssue = await this.save(issue);
     return plainToClass(Issue, createdIssue);
   }
