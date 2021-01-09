@@ -20,15 +20,15 @@ export class IssueService {
     const availableAgentId = await this.agentRepository.findAvailableAgentId();
     if (availableAgentId) {
       issueStatus = IssueStatus.ASSIGNED;
+      await this.agentRepository.updateAgent({
+        id: availableAgentId,
+        status: AgentStatus.WORKING,
+      });
     }
     await this.issueRepository.createIssue({
       ...issue,
       agent_id: availableAgentId,
       status: issueStatus,
-    });
-    await this.agentRepository.updateAgent({
-      id: availableAgentId,
-      status: AgentStatus.WORKING,
     });
   }
 
