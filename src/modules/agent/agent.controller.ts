@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { Agent, CreateAgentDto, ResolveIssueDto } from './dto';
-import { AgentService } from './agent.service';
 import { Issue } from 'modules/issue/dto';
+import { Agent, CreateAgentDto, GetIssueListDto, ResolveIssueDto } from './dto';
+import { AgentService } from './agent.service';
 
 @Controller('agents')
 export class AgentController {
@@ -18,8 +18,8 @@ export class AgentController {
   }
 
   @Get(':id/issues')
-  async getIssueList(@Param('id') agentId: string): Promise<Issue[]> {
-    return this.agentService.getIssueList(agentId);
+  async getIssueList(@Param() params: GetIssueListDto): Promise<Issue[]> {
+    return this.agentService.getIssueList(params.id);
   }
 
   @Put(':id/issues/:issueId/resolve')
