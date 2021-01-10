@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { EntityRepository, Repository } from 'typeorm';
 import { Issue, UpdateIssueDto } from './dto';
@@ -6,7 +7,15 @@ import { IssueEntity } from './issue.entity';
 
 @EntityRepository(IssueEntity)
 export class IssueRepository extends Repository<IssueEntity> {
-  async createIssue(issue: Issue): Promise<void> {
+  async createIssue(newIssue: Issue): Promise<void> {
+    const issue = await this.findOne({
+      where: {
+        title: newIssue.title,
+      },
+    });
+    if (issue) {
+      throw new BadRequestException('Issue already exists');
+    }
     await this.save(issue);
   }
 
@@ -36,9 +45,14 @@ export class IssueRepository extends Repository<IssueEntity> {
   }
 
   async updateIssue(issueDto: UpdateIssueDto): Promise<void> {
-    const issue = await this.findOne(issueDto.id);
+    const issue = await this.findOne({
+      where: {
+        id: issueDto.id,
+        agent_id: issueDto.agent_id,
+      },
+    });
     if (!issue) {
-      throw new Error('Issue is not valid');
+      throw new BadRequestException('Issue already exists');
     }
     await this.save({
       ...issue,
