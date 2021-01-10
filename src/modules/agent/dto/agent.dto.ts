@@ -5,5 +5,5 @@ export class Agent {
 
   name: string;
 
-  status?: AgentStatus;
+  status: AgentStatus;
 }

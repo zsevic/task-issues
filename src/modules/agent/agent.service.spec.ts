@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AgentStatus } from 'modules/agent/agent.enum';
 import { IssueStatus } from 'modules/issue/issue.enum';
 import { IssueRepository } from 'modules/issue/issue.repository';
+import { Agent } from './dto';
 import { AgentRepository } from './agent.repository';
 import { AgentService } from './agent.service';
 
@@ -106,6 +107,21 @@ describe('AgentService', () => {
     await expect(
       agentService.resolveIssue(agentId, issueId),
     ).rejects.toThrowError(BadRequestException);
+  });
+
+  it('should return agent list', async () => {
+    const result: Agent[] = [
+      {
+        id: 'f4ffa824-9a08-4855-a9e9-2e9e95529142',
+        name: 'Agent 2',
+        status: AgentStatus.AVAILABLE,
+      },
+    ];
+    jest.spyOn(agentRepository, 'find').mockResolvedValue(result);
+
+    const agentList = await agentService.getAgentList();
+
+    expect(agentList).toMatchObject(result);
   });
 
   it('should resolve an issue and assign agent to a pending issue', async () => {
