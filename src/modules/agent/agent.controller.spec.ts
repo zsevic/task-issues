@@ -10,7 +10,6 @@ import { AgentService } from './agent.service';
 
 jest.mock('typeorm-transactional-cls-hooked', () => ({
   Transactional: () => () => ({}),
-  BaseRepository: class {},
 }));
 
 describe('AgentController', () => {

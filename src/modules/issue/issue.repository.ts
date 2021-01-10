@@ -6,9 +6,8 @@ import { IssueEntity } from './issue.entity';
 
 @EntityRepository(IssueEntity)
 export class IssueRepository extends Repository<IssueEntity> {
-  async createIssue(issue: Issue): Promise<Issue> {
-    const createdIssue = await this.save(issue);
-    return plainToClass(Issue, createdIssue);
+  async createIssue(issue: Issue): Promise<void> {
+    await this.save(issue);
   }
 
   async getIssueList(): Promise<Issue[]> {
