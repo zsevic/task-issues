@@ -14,9 +14,6 @@ export class IssueRepository extends Repository<IssueEntity> {
         status: IssueStatus.PENDING,
       },
     });
-    if (!issue) {
-      throw new BadRequestException("Issue doesn't exists");
-    }
     await this.save({
       ...issue,
       agent_id: agentId,
