@@ -27,6 +27,16 @@ export class CreateIssue1610221988779 implements MigrationInterface {
             name: 'status',
             type: 'varchar',
           },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'current_timestamp',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'current_timestamp',
+          },
         ],
       }),
     );
