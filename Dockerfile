@@ -1,7 +1,5 @@
 FROM node:14.15.4-alpine3.10 as build_stage
 
-RUN apk add --no-cache bash
-
 WORKDIR /home/src
 
 COPY package*.json ./
@@ -21,7 +19,7 @@ USER node
 
 COPY --from=build_stage /home/src/package*.json ./
 
-RUN npm install --only=production
+RUN npm ci --production
 
 COPY --from=build_stage /home/src/dist ./dist/
 
