@@ -1,9 +1,10 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AgentStatus } from 'modules/agent/agent.enum';
+import { IssueEntity } from 'modules/issue/issue.entity';
 import { IssueStatus } from 'modules/issue/issue.enum';
 import { IssueRepository } from 'modules/issue/issue.repository';
-import { Agent } from './dto';
+import { AgentEntity } from './agent.entity';
+import { AgentStatus } from './agent.enum';
 import { AgentRepository } from './agent.repository';
 import { AgentService } from './agent.service';
 
@@ -64,6 +65,23 @@ describe('AgentService', () => {
     );
   });
 
+  it('should return issue list by agent', async () => {
+    const agentId = 'c9d775de-b208-436d-bd27-c326f4ff138f';
+    const result: IssueEntity[] = [
+      {
+        id: 'd8ee394e-18f5-4a57-b2c2-3553eb49ac0f',
+        agent_id: agentId,
+        title: 'issue 1',
+        status: IssueStatus.ASSIGNED,
+      },
+    ];
+    jest.spyOn(issueRepository, 'find').mockResolvedValue(result);
+
+    const issueList = await agentService.getIssueList(agentId);
+
+    expect(issueList).toMatchObject(issueList);
+  });
+
   it('should resolve an issue', async () => {
     const agentId = '265f46b4-2298-455d-88b7-fd79ff624dfb';
     const agentName = 'Agent 1';
@@ -110,7 +128,7 @@ describe('AgentService', () => {
   });
 
   it('should return agent list', async () => {
-    const result: Agent[] = [
+    const result: AgentEntity[] = [
       {
         id: 'f4ffa824-9a08-4855-a9e9-2e9e95529142',
         name: 'Agent 2',

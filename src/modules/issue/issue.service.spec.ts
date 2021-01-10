@@ -2,6 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AgentStatus } from 'modules/agent/agent.enum';
 import { AgentRepository } from 'modules/agent/agent.repository';
+import { IssueEntity } from './issue.entity';
 import { IssueStatus } from './issue.enum';
 import { IssueRepository } from './issue.repository';
 import { IssueService } from './issue.service';
@@ -79,5 +80,21 @@ describe('IssueService', () => {
         title: 'issue 1',
       }),
     ).resolves.toBe(undefined);
+  });
+
+  it('should return issue list', async () => {
+    const result: IssueEntity[] = [
+      {
+        id: '40fc66b3-f856-48f8-b0a5-30b27988bf44',
+        agent_id: null,
+        title: 'issue 1',
+        status: IssueStatus.PENDING,
+      },
+    ];
+    jest.spyOn(issueRepository, 'find').mockResolvedValue(result);
+
+    const issueList = await issueService.getIssueList();
+
+    expect(issueList).toMatchObject(issueList);
   });
 });

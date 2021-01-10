@@ -28,7 +28,7 @@ describe('AgentController', () => {
     issueRepository = module.get<IssueRepository>(IssueRepository);
   });
 
-  it('should get agent list', async () => {
+  it('should return agent list', async () => {
     const result: Agent[] = [
       {
         id: 'f2403062-7ca9-49b5-911d-4f8ec654e4c3',
@@ -43,7 +43,7 @@ describe('AgentController', () => {
     expect(agentList).toBe(result);
   });
 
-  it('should get issue list by agent id', async () => {
+  it('should return issue list by agent id', async () => {
     const agentId = '2012c8bc-bbbb-41fd-b285-966dc98c3626';
     const result: Issue[] = [
       {

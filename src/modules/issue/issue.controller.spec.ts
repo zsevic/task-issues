@@ -26,7 +26,7 @@ describe('IssueController', () => {
     issueRepository = module.get<IssueRepository>(IssueRepository);
   });
 
-  it('should get issue list', async () => {
+  it('should return issue list', async () => {
     const result: Issue[] = [
       {
         id: 'f2403062-7ca9-49b5-911d-4f8ec654e4c3',
