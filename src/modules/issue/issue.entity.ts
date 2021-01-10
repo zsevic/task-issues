@@ -26,5 +26,5 @@ export class IssueEntity {
 
   @ManyToOne(() => AgentEntity, (agentEntity) => agentEntity.issues)
   @JoinColumn({ name: 'agent_id' })
-  agent: AgentEntity;
+  agent?: AgentEntity;
 }

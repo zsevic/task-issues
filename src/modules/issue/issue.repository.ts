@@ -52,7 +52,7 @@ export class IssueRepository extends Repository<IssueEntity> {
       },
     });
     if (!issue) {
-      throw new BadRequestException('Issue already exists');
+      throw new BadRequestException("Issue doesn't exists");
     }
     await this.save({
       ...issue,

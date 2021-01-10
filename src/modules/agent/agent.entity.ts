@@ -13,5 +13,5 @@ export class AgentEntity {
   status: string;
 
   @OneToMany(() => IssueEntity, (issueEntity) => issueEntity.agent)
-  issues: IssueEntity[];
+  issues?: IssueEntity[];
 }
