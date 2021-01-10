@@ -1,7 +1,5 @@
 # task-issues
 
-## Getting started
-
 ### Setup
 
 ```bash
@@ -27,6 +25,7 @@ docker-compose down
 
 ```bash
 npm test
+npm run test:coverage
 ```
 
 ### Technologies used
