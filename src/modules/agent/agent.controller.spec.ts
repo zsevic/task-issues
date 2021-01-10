@@ -57,7 +57,9 @@ describe('AgentController', () => {
       .spyOn(issueRepository, 'getIssueListByAgentId')
       .mockResolvedValue(result);
 
-    const issueList: Issue[] = await agentController.getIssueList(agentId);
+    const issueList: Issue[] = await agentController.getIssueList({
+      id: agentId,
+    });
 
     expect(issueList).toBe(result);
   });
