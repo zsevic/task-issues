@@ -7,6 +7,23 @@ import { IssueEntity } from './issue.entity';
 
 @EntityRepository(IssueEntity)
 export class IssueRepository extends Repository<IssueEntity> {
+  async assignIssue(issueId: string, agentId: string): Promise<void> {
+    const issue = await this.findOne({
+      where: {
+        id: issueId,
+        status: IssueStatus.PENDING,
+      },
+    });
+    if (!issue) {
+      throw new BadRequestException("Issue doesn't exists");
+    }
+    await this.save({
+      ...issue,
+      agent_id: agentId,
+      status: IssueStatus.ASSIGNED,
+    });
+  }
+
   async createIssue(newIssue: Issue): Promise<void> {
     const issue = await this.findOne({
       where: {
@@ -44,11 +61,12 @@ export class IssueRepository extends Repository<IssueEntity> {
     return issue.id;
   }
 
-  async updateIssue(issueDto: UpdateIssueDto): Promise<void> {
+  async resolveIssue(issueId: string, agentId: string): Promise<void> {
     const issue = await this.findOne({
       where: {
-        id: issueDto.id,
-        agent_id: issueDto.agent_id,
+        id: issueId,
+        agent_id: agentId,
+        status: IssueStatus.ASSIGNED,
       },
     });
     if (!issue) {
@@ -56,7 +74,7 @@ export class IssueRepository extends Repository<IssueEntity> {
     }
     await this.save({
       ...issue,
-      ...issueDto,
+      status: IssueStatus.RESOLVED,
     });
   }
 }

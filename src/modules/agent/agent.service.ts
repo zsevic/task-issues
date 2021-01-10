@@ -37,11 +37,7 @@ export class AgentService {
 
   @Transactional()
   async resolveIssue(agentId: string, issueId: string): Promise<void> {
-    await this.issueRepository.updateIssue({
-      id: issueId,
-      agent_id: agentId,
-      status: IssueStatus.RESOLVED,
-    });
+    await this.issueRepository.resolveIssue(issueId, agentId);
 
     const agentStatus = await this.assignPendingIssueIfAny(agentId);
     if (agentStatus !== AgentStatus.ASSIGNED) {
@@ -57,11 +53,7 @@ export class AgentService {
     const pendingIssueId = await this.issueRepository.getPendingIssueId();
     if (pendingIssueId) {
       agentStatus = AgentStatus.ASSIGNED;
-      await this.issueRepository.updateIssue({
-        id: pendingIssueId,
-        status: IssueStatus.ASSIGNED,
-        agent_id: agentId,
-      });
+      await this.issueRepository.assignIssue(pendingIssueId, agentId);
     }
 
     return agentStatus;

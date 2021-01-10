@@ -63,7 +63,7 @@ describe('AgentController', () => {
   });
 
   it('should resolve an issue', async () => {
-    jest.spyOn(issueRepository, 'updateIssue').mockResolvedValue();
+    jest.spyOn(issueRepository, 'resolveIssue').mockResolvedValue();
     jest.spyOn(issueRepository, 'getPendingIssueId').mockResolvedValue(null);
     jest.spyOn(agentRepository, 'upsertAgent').mockResolvedValue();
 
@@ -76,11 +76,11 @@ describe('AgentController', () => {
   });
 
   it('should resolve an issue and agent should be assigned to the pending issue', async () => {
-    jest.spyOn(issueRepository, 'updateIssue').mockResolvedValue();
+    jest.spyOn(issueRepository, 'resolveIssue').mockResolvedValue();
     jest
       .spyOn(issueRepository, 'getPendingIssueId')
       .mockResolvedValue('e05ca4c6-ce27-4c4e-a4e8-263c791eb0a0');
-    jest.spyOn(agentRepository, 'upsertAgent').mockResolvedValue();
+    jest.spyOn(issueRepository, 'assignIssue').mockResolvedValue();
 
     await expect(
       agentController.resolveIssue({
@@ -91,7 +91,6 @@ describe('AgentController', () => {
   });
 
   it('should create an agent', async () => {
-    jest.spyOn(issueRepository, 'updateIssue').mockResolvedValue();
     jest.spyOn(issueRepository, 'getPendingIssueId').mockResolvedValue(null);
     jest.spyOn(agentRepository, 'upsertAgent').mockResolvedValue();
 
@@ -101,10 +100,10 @@ describe('AgentController', () => {
   });
 
   it('should create an agent and agent should be assigned to the pending issue', async () => {
-    jest.spyOn(issueRepository, 'updateIssue').mockResolvedValue();
     jest
       .spyOn(issueRepository, 'getPendingIssueId')
       .mockResolvedValue('e05ca4c6-ce27-4c4e-a4e8-263c791eb0a0');
+    jest.spyOn(issueRepository, 'assignIssue').mockResolvedValue();
     jest.spyOn(agentRepository, 'upsertAgent').mockResolvedValue();
 
     await expect(agentController.createAgent({ name: 'agent' })).resolves.toBe(
