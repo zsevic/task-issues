@@ -11,12 +11,10 @@ RUN npm run build
 
 FROM node:14.15.4-alpine3.10 as app_stage
 
-RUN mkdir -p /home/app && chown -R node:node /home/app
+WORKDIR /app
 
-WORKDIR /home/app
-
-USER node
-
+COPY --from=build_stage /home/src/tsconfig.json ./
+COPY --from=build_stage /home/src/ormconfig.js ./
 COPY --from=build_stage /home/src/package*.json ./
 
 RUN npm ci --production
