@@ -33,7 +33,7 @@ export class IssueRepository extends Repository<IssueEntity> {
     if (issue) {
       throw new BadRequestException('Issue already exists');
     }
-    await this.save(issue);
+    await this.save(newIssue);
   }
 
   async getIssueList(): Promise<Issue[]> {
