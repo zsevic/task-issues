@@ -8,6 +8,7 @@
 git clone https://github.com/zsevic/task-issues
 cd task-issues
 cp .env.sample .env
+npm i
 docker-compose up --build -V --remove-orphans
 ```
 
@@ -58,4 +59,4 @@ npm run test:coverage
 
 ### Technologies used
 
-- Node.js, TypeScript, NestJS, TypeORM
+- Node.js, TypeScript, NestJS, TypeORM (PostgreSQL)
